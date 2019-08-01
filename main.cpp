@@ -3,6 +3,7 @@
 #include <fstream>
 #include <sstream>
 #include <string>
+#include <iostream>
 
 const std::string load_static(const std::string& path) {
 
@@ -30,6 +31,11 @@ int main() {
 
     svr.Get("/index.js", [&](const httplib::Request& req, httplib::Response& res){
         res.set_content(js, "text/javascript");
+    });
+
+    svr.Post("/api/hoge", [&](const httplib::Request& req, httplib::Response& res){
+        for(const auto& [key, value]: req.params) 
+            std::cout << key << " : " << value << std::endl;
     });
 
     svr.listen("localhost", 3000);
